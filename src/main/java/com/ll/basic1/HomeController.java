@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 // @Controller 의 의미
 // 개발자가 스프링부트에게 말한다.
@@ -229,7 +226,32 @@ public class HomeController {
         }
 
         return "%d번 사람이 삭제되었습니다.".formatted(id);
+
+        // 만약 stream 안쓸거라면 이런 방법도 있음
+//        for ( Person p : people ) {
+//            if ( p.getId() == id ) people.remove(p);
+//        }
     }
+
+    @GetMapping("/home/modifyPerson")
+    @ResponseBody
+    public String modifyPerson(int id, String name, int age) {
+        Person found = people
+                .stream()
+                .filter(p -> p.getId() == id)
+                .findFirst()
+                .orElse(null);
+
+        if (found == null) {
+            return "%d번 사람이 존재하지 않습니다.".formatted(id);
+        }
+
+        found.setName(name);
+        found.setAge(age);
+
+        return "%d번 사람이 수정되었습니다.".formatted(id);
+    }
+
 }
 
 @AllArgsConstructor
@@ -238,12 +260,15 @@ public class HomeController {
 class Person {
     private static int lastId;
     private final int id;
-    private final String name;
-    private final int age;
+    @Setter
+    private String name;
+    @Setter
+    private int age;
 
     static {
         lastId = 0;
     }
+
     Person(String name, int age) {
         this(++lastId, name, age);
     }
