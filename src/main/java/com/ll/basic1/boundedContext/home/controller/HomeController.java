@@ -24,14 +24,14 @@ import java.util.*;
 @Controller
 public class HomeController {
     private int count;
-    private List<Person> people;
+    private final List<Person> people;
     // 필드 주입
-    @Autowired
-    private MemberService memberService;
+    public  final MemberService memberService;
 
-    public HomeController() {
+    public HomeController(MemberService memberService) {
         count = -1;
         people = new ArrayList<>();
+        this.memberService = memberService;
     }
 
 
