@@ -80,6 +80,16 @@ public class Rq {
         }
     }
 
+    private String getSessionAsStr(String name, String defaultValue) {
+        try {
+            String value = (String) req.getSession().getAttribute(name);
+            if (value == null) return defaultValue;
+            return value;
+        } catch (Exception e) {
+            return defaultValue;
+        }
+    }
+
     public boolean removeSession(String name) {
         HttpSession session = req.getSession();
 
