@@ -4,10 +4,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.apache.catalina.Context;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class Rq {
@@ -32,7 +30,7 @@ public class Rq {
     }
 
     public String getCookie(String name, String defaultValue) {
-        if (req.getCookies() == null) return defaultValue;
+        if ( req.getCookies() == null ) return defaultValue;
 
         return Arrays.stream(req.getCookies())
                 .filter(cookie -> cookie.getName().equals(name))
@@ -44,18 +42,17 @@ public class Rq {
     public long getCookieAsLong(String name, long defaultValue) {
         String value = getCookie(name, null);
 
-        if (value == null) {
+        if ( value == null ) {
             return defaultValue;
         }
 
         try {
             return Long.parseLong(value);
         }
-        catch (NumberFormatException e) {
+        catch ( NumberFormatException e ) {
             return defaultValue;
         }
     }
-
 
     public void setCookie(String name, long value) {
         setCookie(name, value + "");
