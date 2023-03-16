@@ -19,7 +19,6 @@ public class MemberController {
     private final Rq rq;
 
     @GetMapping("/member/login")
-    @ResponseBody
     public String showLogin() {
         return "usr/member/login";
     }
